@@ -9,16 +9,18 @@ Contrat d'option
 Un contrat d’option est un contrat par lequel une personne, un vendeur, offre à une autre, un acheteur, le droit d’acheter un instrument finacier dit sous-jacent (actions, valeurs mobilières) à prix et une date déterminées.
 
 
-
 # Glossaire
 
 - __%concedant%__ : nom du promettant / vendeur du titre
 - __%beneficiaire%__ : nom de l'acheteur du titre
-- __%prixoption%__ : prix facturé au beneficiaire pour bénéficier de l'option
+- __%prixoption%__ : prix facturé au beneficiaire pour bénéficier de l'option dans l'unité du stablecoin
+- __%prixexercice%__ : prix final que doit payer le beneficiaire dans l'unité du stablecoin (prix * quantite actif)
 - __%dureeexercice%__ : prix facturé au beneficiaire pour bénéficier de l'option
-
-
-
+- __%actifsousjaçent%__ : actif sous jaçent sur lequel est constitué l'option (en  l'occurence l'actif est une action)
+- __%stablecoin%__ : token servant à réaliser les paiements de smart contract
+- __%adressesmartcontract%__ : adresse à laquelle réside le smart contract du contrat
+- __%adresseactif%__ : adresse à laquelle réside l'actif
+- __%adressestablecoin%__ : adresse à laquelle réside l'actif
 
 
 # Description juridique
@@ -34,31 +36,96 @@ Entre
 Ci-ensemble les parties,
 
 
-En contrepartie de la somme de %prixoption% payée par le Bénéficiaire au Concédant, ce dernier concède irrévocablement au Bénéficiaire pendant [ durée d’exercice], une option d'achat permettant d’imposer au Concédant de vendre [les Actifs sous-jaçents] au Bénéficiaire à [Prix d’exercice].
+En contrepartie de la somme de %prixoption% payée par le Bénéficiaire au Concédant, ce dernier concède irrévocablement au Bénéficiaire pendant %dureeexercice%, une option d'achat permettant d’imposer au Concédant de vendre %actifsousjaçent% (l'Actif) au Bénéficiaire à %prixexercice%.
 
-Les Parties ont décidé de soumettre l’exécution de cet accord à un Smart contract déployé sur le dispositif d’enregistrement électronique partagé Ethereum (ci-après la “Blockchain”), à l’adresse suivante : 
+Les Parties ont décidé de soumettre l’exécution de cet accord à un Smart contract déployé sur le dispositif d’enregistrement électronique partagé Ethereum (ci-après la “Blockchain”), à l’adresse suivante : %adressesmartcontract%.
 
 La souscription, l’exercice et la fermeture de l’option se feront par l’intermédiaire du Smart contract.
 
-[L’Actif] est représenté par un jeton numérique, au sens de l’article …. disponible dans la Blockchain à l’adresse suivante :  …..
+L’Actif est représenté par un jeton numérique, au sens de l’article L552-2 disponible dans la Blockchain à l’adresse suivante : %adresseactif%.
 
-Le paiement de l’option d’achat et de [l’Actif] se feront dans la Blockchain avec le jeton numérique suivant : [...] disponible à l’adresse suivante : …….
+Le paiement de l’option d’achat et de l’Actif se feront dans la Blockchain avec le jeton numérique suivant : %stablecoin% disponible à l’adresse suivante : %adressestablecoin%.
 
 En annexe du présent contrat figure le code source du Smart contract.
 
 
 # Pseudo-code
 
-```
-contract SimpleStorage {
-    uint storedData;
+Contrat {
 
-    set(uint x) public {
-        storedData = x * %valeur1%;
-    }
+//Importer les tokens nécessaires
 
-    get() public view returns (uint) {
-        return storedData * %valeur2%;
-    }
+Importer Token pour représenter l’Actif
+Importer Token pour représenter le stablecoin
+
+//Définir les états du contrat d’option
+
+Etats du contrat : mort, initialisé, ouvert, exercé, fermé
+
+//Déclarer les variables du contrat d’option
+
+quantitéActif
+prixActif 
+prixOption
+dateExpiration
+
+//Définir les adresses du Concédant et du Bénéficiaire
+
+adresseConcédant
+adresseBénéficIaire
+
+fonction Constructeur (tokenActif, tokenPaiement, quantitéActif, prixActif, prixOption, dateExpiration)  {
+
+Vérifie que les adresses des tokens sont existantes, que la quantité et le prix de l’actif, ainsi que la date d’expiration sont supérieures à 0.
+
+Etat du contrat sur "Mort".
+
+end
 }
-````
+
+
+fonction initialisation () {
+
+Après avoir vérifié que contrat sur "Mort" et que le concédant est bien la personne interagissant avec la fonction, transfère l’Actif au smart contract qui le tient en séquestre.
+
+Etat du contrat sur initialisé
+
+end
+}
+
+
+
+fonction acheterOption () {
+
+Après avoir vérifié que l’état est sur initialisé, que la date d’expiration ne soit pas dépassée, et que le Bénéficiaire est bien la personne interagissant avec la fonction→ le bénéficiaire paye le prix de l’option 
+
+Etat du contrat sur “acheté”
+
+end
+}
+
+
+fonction fermerOption () {
+Après avoir vérifié que l’état est sur initialisé ou que l’état est sur ouvert et que la date d’expiration est inférieure au moment où est déclenchée cette fonction.
+
+Vérifie que l’adresse est celle du concédant.
+
+Renvoie les Actifs au Concédant.
+
+Etat : fermé.
+
+end
+}
+
+
+Fonction exercerOption () {
+
+Vérifie que état est ouvert, date d’expiration pas encore passée, que personne interagissant avec la fonction est le Bénéficiaire →  paye le prix * quantité, transfère l’actif représenté au bénéficiaire,
+
+Récupère les actifs
+
+Etat : exercé
+
+end
+}
+
