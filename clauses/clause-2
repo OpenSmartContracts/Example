@@ -1,0 +1,64 @@
+Contrat d'option
+=========
+
+- catégorie : Finance
+- auteur : OpenSmartContract
+
+# Description 
+
+Un contrat d’option est un contrat par lequel une personne, un vendeur, offre à une autre, un acheteur, le droit d’acheter un instrument finacier dit sous-jacent (actions, valeurs mobilières) à prix et une date déterminées.
+
+
+
+# Glossaire
+
+- __%concedant%__ : nom du promettant / vendeur du titre
+- __%beneficiaire%__ : nom de l'acheteur du titre
+- __%prixoption%__ : prix facturé au beneficiaire pour bénéficier de l'option
+- __%dureeexercice%__ : prix facturé au beneficiaire pour bénéficier de l'option
+
+
+
+
+
+# Description juridique
+
+Contrat d'option 
+
+Entre 
+
+%concedant%, d’une part (ci-après le Concédant) et,
+
+%beneficiaire%, d’autre part (ci-après le Bénéficiaire/ titulaire de l’option),
+
+Ci-ensemble les parties,
+
+
+En contrepartie de la somme de %prixoption% payée par le Bénéficiaire au Concédant, ce dernier concède irrévocablement au Bénéficiaire pendant [ durée d’exercice], une option d'achat permettant d’imposer au Concédant de vendre [les Actifs sous-jaçents] au Bénéficiaire à [Prix d’exercice].
+
+Les Parties ont décidé de soumettre l’exécution de cet accord à un Smart contract déployé sur le dispositif d’enregistrement électronique partagé Ethereum (ci-après la “Blockchain”), à l’adresse suivante : 
+
+La souscription, l’exercice et la fermeture de l’option se feront par l’intermédiaire du Smart contract.
+
+[L’Actif] est représenté par un jeton numérique, au sens de l’article …. disponible dans la Blockchain à l’adresse suivante :  …..
+
+Le paiement de l’option d’achat et de [l’Actif] se feront dans la Blockchain avec le jeton numérique suivant : [...] disponible à l’adresse suivante : …….
+
+En annexe du présent contrat figure le code source du Smart contract.
+
+
+# Pseudo-code
+
+```
+contract SimpleStorage {
+    uint storedData;
+
+    set(uint x) public {
+        storedData = x * %valeur1%;
+    }
+
+    get() public view returns (uint) {
+        return storedData * %valeur2%;
+    }
+}
+````
