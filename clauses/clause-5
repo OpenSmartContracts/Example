@@ -1,0 +1,85 @@
+Clause buy or sell
+=========
+
+- catégorie : Droit des sociétés
+- auteur : OpenSmartContract
+
+# Description 
+
+Cette clause permet à un actionnaire de proposer l'achat de tous les titres d'un autre actionnaire à un prix déterminé ou à défaut de vendre les siens au prix auquel il était prêt à les acheter.
+
+
+# Glossaire
+- __%prixaction%__ : prix de l'action que propose l'actionnaire initiateur
+-__%adressesmartcontract%__ : adresse dans la blockchain à laquelle figure le smart contract implémentant le mécanisme de buy or sell
+
+
+
+# Description juridique
+
+Un actionnaire (l'Actionnaire initiateur) a la faculté de formuler une offre d'achat de toutes les actions d'un autre actionnaire (l'Actionnaire désigné) au prix de  %prixaction% l' action,  par le biais d'un smart contract déployé dans la blockchain à l'adresse suivante : %adressesmartcontract%.
+L'Actionnaire désigné dispose ensuite d'un délai de 30 jours pour :
+
+a)  accepter l'offre d'achat de l'Actionnaire initiateur et voir toutes ses actions cédées à ce dernier au prix de %prixaction% l'action, ou
+
+b)  formuler une contre-offre à l'Actionnaire initiateur (par l'intermédiaire du Smart Contract) et acheter toutes les actions de ce dernier au même prix auquel il proposait d'acheter les siennes , soit %prixaction% l' action. 
+
+Si l'Actionnaire désigné ne répond pas à l'offre de l'Actionnaire initiateur dans le délai de 30 jours, il sera réputé avoir accepté son offre et verra donc toutes ses actions cédées à l'Actionnaire Initiateur au prix de %prixaction% l'action. 
+
+
+
+#Pseudo Code
+
+Importer token représentant l'action
+Importer token représentant le stablecoin
+
+
+//Définir variables
+
+adresse initiateur
+adresse associe designe
+prix action
+delai
+etats du contrat
+
+fonction initiation (associe désigné) 
+{
+    vérifie que l'état du contrat est sur none ou ouvert,
+    vérifie que l'initiateur est un associé --> assigne l'adresse à la variable "adresse initiateur" 
+    vérifie que l'associé désigné est un associé --> assigne l'adresse à la variable "adresse associe desgine"
+    vérifie que l'associé est n'a pas deja utilisé cette fonction
+
+    transfere toutes les actions de l'associe initiateur au SC
+    transfère toutes les actions de l'associé désigné au SC
+
+    déclenche la variable délai
+
+    Place l'état du contrat sur "initié"
+}
+
+fonction exercice Associé désginé () {
+    vérifie que l'etat du contrat est sur initie,
+    vérifie que l'adresse du msg.sender est celle de l'associe désigné,
+    vérifie que le délai est inférieur à 30 jours,
+    vérifie que l'associe designe n'a pas déjà exerce son droit,
+
+    transfère le montant correspondant à l'associé initiateur et récupère toutes les actions tenus par le SC,
+
+    Place l'état du contrat sur "fermé"
+}
+
+
+fonction exercice Associé initiateur () {
+    vérifie que l'etat du contrat est sur initie,
+    vérifie que l'adresse du msg.sender est celle de l'associe initiateur,
+    vérifie que le délai est supérieur à 30 jours,
+    vérifie que l'associe n'a pas déjà exerce son droit,
+
+    transfère le montant correspondant à l'associé designé et récupère toutes les actions tenus par le SC
+
+    Place l'état du contrat sur "fermé"
+
+
+
+
+}
