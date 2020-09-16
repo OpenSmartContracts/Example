@@ -1,0 +1,113 @@
+Clause de préemption
+=========
+
+- catégorie : Droit des sociétés
+- auteur : OpenSmartContract
+
+# Description 
+
+La clause de préemption est un mécanisme juridique figurant dans les statuts ou un pacte d’actionnaire, qui confère aux associés ou à certains d’entre eux le droit d’acheter en priorité les actions dont la cession est envisagée.
+
+
+# Glossaire
+- __%tokenacttion%__ : token représentant l'action
+-__%adressesmartcontract%__ : adresse dans la blockchain à laquelle figure le smart contract implémentant le mécanisme de préemption
+-__%joursnotification%__ : nombre de jours dans lesquelles la société doit notifier les associés du projet de cession
+
+
+# Description juridique
+
+La cession des titres, représentées par le token suivant : %tokenaction%, est soumise à un droit de préemption des Associés, exercé par l'intermédiaire d’un Smart contract.
+
+L'associé souhaitant transférer ses titres à une tierce personne s’engage à notifier son projet de cession à la Société en indiquant l'identification du cessionnaire, le nombre de Titres dont la cession est envisagée et le prix par action offert.
+
+Il peut ensuite initier le transfert à travers le Smart contract.
+
+La Société devra notifier le projet de cession aux associés dans un délai de %joursnotification% jours en les informant des conditions d'exercice de leur droit de préemption à travers le Smart contract.
+
+Ils disposeront alors de la faculté de préempter les titres proposés à la cession, au prix offert par le cessionnaire et indiqué dans le courrier de notification du projet de cession. 
+
+Tout associé souhaitant exercer son droit de préemption disposera d'un délai de 90 jours pour le faire, en indiquant le nombre de titres dont il souhaite faire l'acquisition à travers le Smart Contract.
+
+L'exercice du droit de Préemption par un ou plusieurs associés doit porter sur l'intégralité des actions concernées.
+
+Dans le cas où les demandes de préemption dépasseraient le nombre d’Actions proposées, celles-ci seront réparties entre les associés au prorata de leur participation dans le capital de la Société et dans la limite de leurs demandes respectives.
+
+# Pseudo Code
+
+Importer token représentant l'action
+Importer le stablecoin
+
+Définir les variables
+
+adresse cessionnaire, 
+adresse cedant, 
+nbre actions a vendre, 
+nbre actions voulues, 
+prix action, 
+delai, 
+nb action preemptees,
+
+Etats du contrat
+
+fonction transfert action (nbre actions a vendre, prix action, adresse cessionnaire) {
+    vérifie que l'état du contrat est sur None ou ouvert,
+    vérifie que le msg.sender est bien un associé de la société,
+    vérifie que nbre actions a vendre =< aux actions du msg.sender
+
+    --> si le cessionnaire n'est pas un associé, alors transfère les actions du msg.sender au smart contract;
+    sinon transfère librement aux associés
+    
+    --> déclenche la variable délai
+
+
+    place l'état du contrat sur "exercice ouvert"
+}
+
+
+fonction exercice preemption (nbre actions voulues) {
+    vérifie que l'état du contrat est sur "exercice ouvert",
+    vérifie que l'actionnement de la fonction se fait dans le délai,
+    vérifie que le msg.sender est un bien associé de la société, 
+    vérifie qu'il n'a pas déjà exercé son droit de préemption,
+    enregistre le msg.sender comme un preemptaire ayant exerce son droit,
+    vérifie que le nbre d'actions voulues <= nbre d'actions à vendre,
+
+    --> enregistre le nbre d'actions voulues, l'exercice du droit, et incrémente le nbre d'actions preemptees
+    --> transfère le prix de vente correspondant au smart contract
+    
+    
+     place l'état du contrat sur "pret a etre reparti"
+
+
+}
+
+fonction repartition preemption () {
+verifie que l'état du contrat est sur "pret a etre reparti"
+verifie que l'actionnement de la fonction se fait après le delai,
+verifie que le msg.sender est un preemptaire ayant exerce son droit,
+verifie que le msg.sender n'a pas epuisé son droit, 
+
+if (nbre actions preemptees < nbre actions a vendre) :
+
+--> echec de la preemption, smart contract retransfère le montant envoyé à l'associé 
+
+else if(nbre actions preemptees = nbre actions a vendre):
+
+--> reussite preemption, smart contract transfère les actions demandées au preemptaire et le prix correspondant au cedant
+
+else if (nbre actions preemptes > nbre actions a vendre):
+
+--> reussite preemption, smart contract transfère les actions demandees au preemptaire au prorata de sa detention dans le K;
+  if (actions prorata > nbre actions voulues par l'associé):
+  --> actions a envoyer = actions preemptees par l'associe;
+  
+  else:
+  
+  --> action a envoyer = actions au prorata de sa detention dans le K social
+  
+
+
+
+
+}

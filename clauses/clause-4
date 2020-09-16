@@ -1,0 +1,50 @@
+Contrat exclusion
+=========
+
+- catégorie : Droit des sociétés
+- auteur : OpenSmartContract
+
+# Description 
+
+La clause d’exclusion est un droit accordé aux associés d’une société permettant d’exclure un des leurs à titre de sanction. 
+
+
+# Glossaire
+
+
+
+# Description juridique
+
+L’exclusion de plein droit d’un associé intervient en cas de dissolution, de redressement ou de liquidation judiciaire de celui-ci.
+
+
+
+# Pseudo-code
+
+Importer ERC1644 ou n'importe quel standard permettant de forcer un transfert //
+Importer libraire oracle
+
+// l’utilisation de l’oracle est asynchrone, donc la récupération de l’information se fait en deux fonctions
+
+Définir variables: 
+
+Adresse de l’associé,
+Totale de ses actions,
+informationsExclusion
+informationsSociete
+
+Fonction requêteOracle () {
+
+Appel à la fonction de la librairie de l’oracle qui va chercher l’information sur l’API de infogreffe de l’existence d’une procédure.
+
+}
+
+Fonction callbackOracle () {
+
+Si l’information a été récupérée et si existence procédure collective == “OUI”, alors
+
+→ utilise fonction du token représentant l’action pour forcer le transfert de toute la balance de l’associé vers l’adresse de la société
+
+
+}
+

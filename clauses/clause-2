@@ -1,0 +1,107 @@
+Contrat à terme
+=========
+
+- catégorie : Finance
+- auteur : OpenSmartContract
+
+# Description 
+
+Un contrat à terme ferme constitue une engagement pour l'acheteur de prendre livraison et pour le vendeur de livrer un actif financier contre règlement à un prix et à une date déterminés.
+
+# Glossaire
+
+- __%acheteur%__ : nom de l'acheteur du titre
+- __%vendeur%__ : nom du vendeur du titre
+- __%prixactif%__ : prix facturé à l'acheteur.
+- __%datecontrat%__ : date à laquelle le vendeur vend l'actif et l'achèteur l'achète. 
+- __%actifsousjaçent%__ : actif sous jaçent sur lequel est constitué le contrat à terme (en  l'occurence l'actif est une action)
+- __%stablecoin%__ : token servant à réaliser les paiements de smart contract
+- __%adressesmartcontract%__ : adresse à laquelle réside le smart contract du contrat
+- __%adresseactif%__ : adresse à laquelle réside l'actif
+- __%adressestablecoin%__ : adresse à laquelle réside l'actif
+
+
+# Description juridique
+
+Entre 
+
+%vendeur%, d’une part  (ci-après le Vendeur) et,
+
+%acheteur%, d’autre part (ci-après l’Acheteur),
+
+Ci-ensemble les parties,
+
+Le Vendeur s’engage envers l’Acheteur à lui céder l’Actif : %actif% au prix de %prixactif% à la date de %datecontrat%. L’Acheteur s’engage envers le Vendeur à prendre livraison de l’Actif au prix de %prixactif% à la date de %datecontrat%. 
+
+Les Parties ont décidé de soumettre l’exécution de cet accord à un Smart contract déployé sur le dispositif d’enregistrement électronique partagé Ethereum (ci-après la “Blockchain”), à l’adresse suivante : %adressesmartcontract%
+
+L’Actif est représenté par un jeton numérique, au sens de l’article L552-2 du code monétaire et financier disponible dans la Blockchain à l’adresse suivante : %adresseactif%.
+
+Le paiement de l’Actif se fera dans la Blockchain avec le jeton numérique suivant : %stablecoin% disponible à l’adresse suivante : %adressestablecoin%.
+
+En annexe du présent contrat figure le code source du Smart contract.
+
+# Pseudo-code
+
+Contrat {
+
+//Importer les tokens nécessaires
+
+Importer Token pour représenter l’Actif
+Importer Token pour représenter la monnaie de paiement
+
+//Définir les états du contrat à terme
+
+Etats du contrat : mort, initialisé, ouvert, exercé, fermé
+
+//Déclarer les variables du contrat à terme
+
+quantitéActif
+prixExercice
+prixOption
+dateExpiration
+
+//Définir les adresses du Concédant et du Bénéficiaire
+
+adresseConcédant
+adresseBénéficiaire
+
+fonction Constructeur (tokenActif, tokenPaiement, quantitéActif, prixExercice, prixOption, dateExpiration)  {
+
+Vérifie que les adresses des tokens sont existantes, que la quantité et le prix d’exerice, ainsi que la date d’expiration sont supérieures à 0.
+
+Etat du contrat sur None.
+
+end
+}
+
+
+fonction initialisation () {
+
+Après avoir vérifié que contrat sur None et que le concédant est bien la personne interagissant avec la fonction, transfère l’Actif au smart contract qui le tient en séquestre.
+
+Etat du contrat sur initialisé
+
+end
+}
+
+fonction acheterFuture() {
+
+Après avoir vérifié que l’état est sur initialisé,  et que le Bénéficiaire est bien la personne interagissant avec la fonction→ le bénéficiaire transfère le prix du futures et du bien qu’il s’engage à acheter qui est séquestré. 
+
+Etat du contrat sur “acheté”
+
+end
+}
+
+
+Fonction recupererActifs() {
+
+Vérifie que état est ouvert,  que personne interagissant avec la fonction est le Bénéficiaire, que date de “réalisation du futures est bonne” →  transfère les actifs au Bénéficiaire
+
+Etat : exercé
+
+end
+}
+
+
